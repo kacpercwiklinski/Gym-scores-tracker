@@ -1,4 +1,4 @@
-import 'package:gym_tracker/src/data/BaseModel.dart';
+import 'package:gym_tracker/src/data/model/BaseModel.dart';
 
 class MuscleGroupModel implements BaseModel {
   @override

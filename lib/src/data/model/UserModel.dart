@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/src/data/BaseModel.dart';
-import 'package:gym_tracker/src/data/UserRepository.dart';
+import 'package:gym_tracker/src/data/model/BaseModel.dart';
+import 'package:gym_tracker/src/data/repository/UserRepository.dart';
 
 class UserModel implements BaseModel {
   int id;

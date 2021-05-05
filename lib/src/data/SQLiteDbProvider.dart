@@ -20,17 +20,22 @@ class SQLiteDbProvider {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "GymTrackerDB.db");
     _db = await openDatabase(path, version: 1,
-        onOpen: (db) async {},
+        onOpen: (db) async {
+          //deleteDatabase(path);
+        },
         onCreate: (Database db, int version) async {
       await db
           .execute("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)");
       await db.execute(
-          "CREATE TABLE exercises (id INTEGER PRIMARY KEY, name TEXT)");
-      await db.execute(
           "CREATE TABLE muscle_groups (id INTEGER PRIMARY KEY, name TEXT)");
+
+      await db.execute(
+          "CREATE TABLE exercises (id INTEGER PRIMARY KEY, name TEXT, muscle_group_id INTEGER, FOREIGN KEY(muscle_group_id) REFERENCES muscle_groups(id))"
+      );
       // Insert default users
       await db.execute(
           "INSERT INTO users ('id', 'name') values (?,?)", [0, "Kacper"]);
+
       // Insert default exercises
       await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
           [0, "Lawka płaska"]);

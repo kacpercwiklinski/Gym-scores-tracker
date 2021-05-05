@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/src/data/UserModel.dart';
-import 'package:gym_tracker/src/data/UserRepository.dart';
+import 'package:gym_tracker/src/data/model/UserModel.dart';
+import 'package:gym_tracker/src/data/repository/UserRepository.dart';
 import 'package:gym_tracker/src/views/AddUserView.dart';
 import 'package:gym_tracker/src/views/SettingsView.dart';
 
