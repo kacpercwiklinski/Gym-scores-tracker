@@ -21,7 +21,10 @@ class SQLiteDbProvider {
     String path = join(documentsDirectory.path, "GymTrackerDB.db");
     _db = await openDatabase(path, version: 1,
         onOpen: (db) async {
-          //deleteDatabase(path);
+//deleteDatabase(path);
+        },
+        onConfigure: (db) async {
+
         },
         onCreate: (Database db, int version) async {
       await db
@@ -36,15 +39,23 @@ class SQLiteDbProvider {
       await db.execute(
           "INSERT INTO users ('id', 'name') values (?,?)", [0, "Kacper"]);
 
-      // Insert default exercises
-      await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
-          [0, "Lawka płaska"]);
-      await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
-          [1, "Martwy ciąg"]);
+      // Insert default muscle groups
       await db.execute(
-          "INSERT INTO exercises ('id', 'name') values (?,?)", [2, "Francuz"]);
-      await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
-          [3, "Bicepsy hantlem"]);
+          "INSERT INTO muscle_groups ('id', 'name') values (?,?)", [0, "Klatka"]);
+      await db.execute(
+          "INSERT INTO muscle_groups ('id', 'name') values (?,?)", [1, "Plecy"]);
+      await db.execute(
+          "INSERT INTO muscle_groups ('id', 'name') values (?,?)", [2, "Barki"]);
+
+      // Insert default exercises
+      // await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
+      //     [0, "Lawka płaska"]);
+      // await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
+      //     [1, "Martwy ciąg"]);
+      // await db.execute(
+      //     "INSERT INTO exercises ('id', 'name') values (?,?)", [2, "Francuz"]);
+      // await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
+      //     [3, "Bicepsy hantlem"]);
     });
   }
 

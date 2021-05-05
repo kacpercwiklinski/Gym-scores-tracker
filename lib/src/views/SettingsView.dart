@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/src/views/Subviews/ExercisesSettingsSubview.dart';
-import 'package:gym_tracker/src/views/Subviews/MuscleGroupsSettingsSubview.dart';
+import 'package:gym_tracker/src/views/Subviews/ExercisesSettingsView.dart';
+import 'package:gym_tracker/src/views/Subviews/MuscleGroupsSettingsView.dart';
 
 class SettingsView extends StatefulWidget {
   @override
@@ -13,8 +13,8 @@ class _SettingsViewState extends State<SettingsView> {
   _SettingsViewState() {
       _settingsElements = List.from([
         SettingsElement("Cwiczenia", null,
-            () => openView(ExercisesSettingsSubview(), null)),
-        SettingsElement("Partie mięsni", null,
+            () => openView(ExercisesSettingsView(), null)),
+        SettingsElement("Grupy mięsniowe", null,
             () => openView(MuscleGroupSettingsView(), null)),
       ]);
   }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ExercisesSettingsSubview extends StatefulWidget {
+class ExercisesSettingsView extends StatefulWidget {
   @override
-  _ExercisesSettingsSubviewState createState() => _ExercisesSettingsSubviewState();
+  _ExercisesSettingsViewState createState() => _ExercisesSettingsViewState();
 }
 
-class _ExercisesSettingsSubviewState extends State<ExercisesSettingsSubview> {
+class _ExercisesSettingsViewState extends State<ExercisesSettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

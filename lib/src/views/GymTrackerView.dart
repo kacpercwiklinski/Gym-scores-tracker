@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/src/data/SQLiteDbProvider.dart';
 import 'package:gym_tracker/src/data/model/UserModel.dart';
 import 'package:gym_tracker/src/data/repository/UserRepository.dart';
 import 'package:gym_tracker/src/views/AddUserView.dart';
@@ -15,6 +16,7 @@ class _GymTrackerState extends State<GymTracker> {
   UserRepository _userRepository = UserRepository();
 
   _GymTrackerState() {
+    SQLiteDbProvider.get.database.then((value) => null);
     _refreshUserList();
   }
 

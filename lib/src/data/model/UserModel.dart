@@ -22,7 +22,7 @@ class UserModel implements BaseModel {
 class UserGridItem extends StatelessWidget {
   final UserModel user;
   final _userRepository = UserRepository();
-  final Function ()refreshUserListCallback;
+  final Function() refreshUserListCallback;
 
   UserGridItem({Key key, this.user, this.refreshUserListCallback})
       : super(key: key);
@@ -54,16 +54,16 @@ class UserGridItem extends StatelessWidget {
             actions: [
               TextButton(
                   onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Anuluj")),
+              TextButton(
+                  onPressed: () {
                     _userRepository.deleteById(user.id);
                     refreshUserListCallback();
                     Navigator.of(context).pop();
                   },
-                  child: Text("Usuń")),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Anuluj"))
+                  child: Text("Usuń"))
             ],
           );
         });
