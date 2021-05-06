@@ -44,7 +44,7 @@ class UserGridItem extends StatelessWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Czy na pewno chcesz usunąć tego gnoja?"),
+            title: Text("Czy na pewno chcesz usunąć?"),
             content: SingleChildScrollView(
                 child: ListBody(
               children: [
@@ -60,6 +60,8 @@ class UserGridItem extends StatelessWidget {
               TextButton(
                   onPressed: () {
                     _userRepository.deleteById(user.id);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Usunięto strongmana!")));
                     refreshUserListCallback();
                     Navigator.of(context).pop();
                   },
@@ -94,6 +96,7 @@ class UserGridItem extends StatelessWidget {
             onPressed: () => showPersonsPage(context),
             icon: Icon(Icons.person),
             label: Text("Podgląd")),
+
       ],
     ));
   }

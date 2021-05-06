@@ -11,6 +11,8 @@ class SQLiteDbProvider {
   bool isInitialized = false;
   Database _db;
 
+  static const DEBUG_MODE = true;
+
   Future<Database> get database async {
     if (!isInitialized) await _init();
     return _db;
@@ -19,88 +21,61 @@ class SQLiteDbProvider {
   _init() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "GymTrackerDB.db");
-    _db = await openDatabase(path, version: 1,
-        onOpen: (db) async {
-//deleteDatabase(path);
-        },
-        onConfigure: (db) async {
 
-        },
-        onCreate: (Database db, int version) async {
-      await db
-          .execute("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)");
-      await db.execute(
-          "CREATE TABLE muscle_groups (id INTEGER PRIMARY KEY, name TEXT)");
+    if (DEBUG_MODE) await deleteDatabase(path);
 
+    _db = await openDatabase(path,
+        version: 1,
+        onOpen: (db) async {},
+        onConfigure: (db) async {}, onCreate: (Database db, int version) async {
       await db.execute(
-          "CREATE TABLE exercises (id INTEGER PRIMARY KEY, name TEXT, muscle_group_id INTEGER, FOREIGN KEY(muscle_group_id) REFERENCES muscle_groups(id))"
-      );
+          "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT , name TEXT)");
+      await db.execute(
+          "CREATE TABLE muscle_groups (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)");
+      await db.execute(
+          "CREATE TABLE exercises (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, muscle_group_id INTEGER, FOREIGN KEY(muscle_group_id) REFERENCES muscle_groups(id))");
       // Insert default users
       await db.execute(
           "INSERT INTO users ('id', 'name') values (?,?)", [0, "Kacper"]);
 
       // Insert default muscle groups
+      await db.execute("INSERT INTO muscle_groups ('id', 'name') values (?,?)",
+          [0, "Klatka"]);
+      await db.execute("INSERT INTO muscle_groups ('id', 'name') values (?,?)",
+          [1, "Plecy"]);
+      await db.execute("INSERT INTO muscle_groups ('id', 'name') values (?,?)",
+          [2, "Barki"]);
+      await db.execute("INSERT INTO muscle_groups ('id', 'name') values (?,?)",
+          [3, "Biceps"]);
+      await db.execute("INSERT INTO muscle_groups ('id', 'name') values (?,?)",
+          [4, "Triceps"]);
       await db.execute(
-          "INSERT INTO muscle_groups ('id', 'name') values (?,?)", [0, "Klatka"]);
-      await db.execute(
-          "INSERT INTO muscle_groups ('id', 'name') values (?,?)", [1, "Plecy"]);
-      await db.execute(
-          "INSERT INTO muscle_groups ('id', 'name') values (?,?)", [2, "Barki"]);
+          "INSERT INTO muscle_groups ('id', 'name') values (?,?)", [5, "Nogi"]);
+      await db.execute("INSERT INTO muscle_groups ('id', 'name') values (?,?)",
+          [6, "Brzuch"]);
 
       // Insert default exercises
-      // await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
-      //     [0, "Lawka płaska"]);
-      // await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
-      //     [1, "Martwy ciąg"]);
-      // await db.execute(
-      //     "INSERT INTO exercises ('id', 'name') values (?,?)", [2, "Francuz"]);
-      // await db.execute("INSERT INTO exercises ('id', 'name') values (?,?)",
-      //     [3, "Bicepsy hantlem"]);
+      await db.execute(
+          "INSERT INTO exercises ('id', 'name', 'muscle_group_id') values (?,?,?)",
+          [0, "Lawka płaska", 0]);
+      await db.execute(
+          "INSERT INTO exercises ('id', 'name', 'muscle_group_id') values (?,?,?)",
+          [1, "Martwy ciąg", 1]);
+      await db.execute(
+          "INSERT INTO exercises ('id', 'name', 'muscle_group_id') values (?,?,?)",
+          [2, "OHP", 2]);
+      await db.execute(
+          "INSERT INTO exercises ('id', 'name', 'muscle_group_id') values (?,?,?)",
+          [3, "Biceps hantlami", 3]);
+      await db.execute(
+          "INSERT INTO exercises ('id', 'name', 'muscle_group_id') values (?,?,?)",
+          [4, "Francuz", 4]);
+      await db.execute(
+          "INSERT INTO exercises ('id', 'name', 'muscle_group_id') values (?,?,?)",
+          [5, "Przysiad", 5]);
+      await db.execute(
+          "INSERT INTO exercises ('id', 'name', 'muscle_group_id') values (?,?,?)",
+          [6, "Brzuszki", 6]);
     });
   }
-
-  // // User related queries
-  // Future<List<User>> getAllUsers() async {
-  //   final db = await database;
-  //   List<Map> results =
-  //       await db.query("users", columns: User.columns, orderBy: "id ASC");
-  //   List<User> users = [];
-  //
-  //   results.forEach((result) {
-  //     User user = User.fromMap(result);
-  //     users.add(user);
-  //   });
-  //   return users;
-  // }
-  //
-  // Future<User> getUserById(int id) async {
-  //   final db = await database;
-  //   var result = await db.query("users", where: "id = ", whereArgs: [id]);
-  //   return result.isNotEmpty ? User.fromMap(result.first) : Null;
-  // }
-  //
-  // insertUser(User user) async {
-  //   final db = await database;
-  //   var maxIdResult =
-  //       await db.query("SELECT MAX(id)+1 as last_inserted_id FROM users");
-  //   var id = maxIdResult.first["last_inserted_id"];
-  //   var result = await db.rawInsert(
-  //       "INSERT INTO users"
-  //       "(id,name)"
-  //       "VALUES (?,?)",
-  //       [id, user.name]);
-  //   return result;
-  // }
-  //
-  // updateUser(User user) async {
-  //   final db = await database;
-  //   var result = await db
-  //       .update("users", user.toMap(), where: "id = ?", whereArgs: [user.id]);
-  //   return result;
-  // }
-  //
-  // deleteUser(int id) async {
-  //   final db = await database;
-  //   db.delete("users", where: "id = ", whereArgs: [id]);
-  // }
 }

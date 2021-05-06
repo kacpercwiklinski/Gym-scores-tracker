@@ -36,7 +36,7 @@ class _AddUserFormState extends State<AddUserView> {
               child: TextFormField(
                 controller: _formController,
                 decoration: InputDecoration(
-                    border: UnderlineInputBorder(), labelText: "Imie gnoja"),
+                    border: UnderlineInputBorder(), labelText: "Imie"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Wprowadz imie nowego strongmana!";
@@ -63,7 +63,7 @@ class _AddUserFormState extends State<AddUserView> {
                         print(user.name);
                         await userRepository.insert(user); // TODO: Add error handling
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Dodano nowego gnoja!")));
+                            SnackBar(content: Text("Dodano nowego strongmana!")));
                       }
                       Navigator.pop(context);
                     },

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:gym_tracker/src/data/model/BaseModel.dart';
 import 'package:gym_tracker/src/data/SQLiteDbProvider.dart';
-import 'package:sqflite/sqflite.dart';
 
 abstract class BaseRepository<T extends BaseModel> {
   final String table;
@@ -53,5 +52,11 @@ abstract class BaseRepository<T extends BaseModel> {
     return result;
   }
 
-  insert(T item);
+  insert(T item) async {
+    var database = await SQLiteDbProvider.get.database;
+    var result = await database
+    .insert(table, item.toMap());
+
+    return result;
+  }
 }
