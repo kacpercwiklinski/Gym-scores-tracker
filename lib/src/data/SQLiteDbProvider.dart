@@ -34,6 +34,9 @@ class SQLiteDbProvider {
           "CREATE TABLE muscle_groups (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)");
       await db.execute(
           "CREATE TABLE exercises (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, muscle_group_id INTEGER, FOREIGN KEY(muscle_group_id) REFERENCES muscle_groups(id))");
+      await db.execute(
+          "CREATE TABLE scores (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, exercise_id INTEGER, score REAL, date TEXT)");
+
       // Insert default users
       await db.execute(
           "INSERT INTO users ('id', 'name') values (?,?)", [0, "Kacper"]);

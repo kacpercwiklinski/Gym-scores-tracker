@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Personal Gym Tracker',
-        theme: ThemeData(
-          primaryColor: Colors.purple[900]
-        ),
+        theme: ThemeData(primaryColor: Colors.purple[900]),
         home: GymTracker());
   }
 }
