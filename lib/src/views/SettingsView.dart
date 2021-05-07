@@ -11,12 +11,12 @@ class _SettingsViewState extends State<SettingsView> {
   List<SettingsElement> _settingsElements = <SettingsElement>[];
 
   _SettingsViewState() {
-      _settingsElements = List.from([
-        SettingsElement("Cwiczenia", null,
-            () => openView(ExercisesSettingsView(), null)),
-        SettingsElement("Grupy mięsniowe", null,
-            () => openView(MuscleGroupSettingsView(), null)),
-      ]);
+    _settingsElements = List.from([
+      SettingsElement(
+          "Cwiczenia", null, () => openView(ExercisesSettingsView(), null)),
+      SettingsElement("Grupy mięsniowe", null,
+          () => openView(MuscleGroupSettingsView(), null)),
+    ]);
   }
 
   void openView(Widget view, Function returnCallback) {

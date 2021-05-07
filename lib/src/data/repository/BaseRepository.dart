@@ -54,8 +54,9 @@ abstract class BaseRepository<T extends BaseModel> {
 
   insert(T item) async {
     var database = await SQLiteDbProvider.get.database;
-    var result = await database
-    .insert(table, item.toMap());
+    item.id = await getNextId();
+
+    var result = await database.insert(table, item.toMap());
 
     return result;
   }

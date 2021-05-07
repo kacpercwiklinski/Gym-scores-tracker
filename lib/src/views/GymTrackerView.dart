@@ -97,11 +97,9 @@ class _GymTrackerState extends State<GymTracker> {
                 Icons.settings,
               ),
               onPressed: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SettingsView()))
-              }),
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SettingsView()))
+                  }),
         ],
       ),
       body: Container(child: _buildGrid()),

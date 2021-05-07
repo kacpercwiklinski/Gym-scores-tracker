@@ -11,7 +11,7 @@ class SQLiteDbProvider {
   bool isInitialized = false;
   Database _db;
 
-  static const DEBUG_MODE = true;
+  static const DEBUG_MODE = false;
 
   Future<Database> get database async {
     if (!isInitialized) await _init();

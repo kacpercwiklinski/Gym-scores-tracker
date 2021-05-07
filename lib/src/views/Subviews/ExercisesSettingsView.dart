@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/src/data/model/ExerciseModel.dart';
-import 'package:gym_tracker/src/data/model/MuscleGroupModel.dart';
 import 'package:gym_tracker/src/data/repository/ExercisesRepository.dart';
-import 'package:gym_tracker/src/data/repository/MuscleGroupRepository.dart';
+import 'package:gym_tracker/src/views/Subviews/AddExerciseView.dart';
 
 class ExercisesSettingsView extends StatefulWidget {
   @override
@@ -24,7 +23,8 @@ class _ExercisesSettingsViewState extends State<ExercisesSettingsView> {
     });
   }
 
-  Future<void> _showDeleteExerciseDialog(BuildContext context, int exerciseId) async {
+  Future<void> _showDeleteExerciseDialog(
+      BuildContext context, int exerciseId) async {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -33,10 +33,10 @@ class _ExercisesSettingsViewState extends State<ExercisesSettingsView> {
             title: Text("Czy na pewno chcesz usunąć te ćwiczenie?"),
             content: SingleChildScrollView(
                 child: ListBody(
-                  children: [
-                    Text('Potwierdź usunięcie.'),
-                  ],
-                )),
+              children: [
+                Text('Potwierdź usunięcie.'),
+              ],
+            )),
             actions: [
               TextButton(
                   onPressed: () {
@@ -47,8 +47,8 @@ class _ExercisesSettingsViewState extends State<ExercisesSettingsView> {
                   onPressed: () {
                     _exercisesRepository.deleteById(exerciseId);
                     _refreshExercisesList();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Usunięto ćwiczenie!")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Usunięto ćwiczenie!")));
                     Navigator.of(context).pop();
                   },
                   child: Text("Usuń"))
@@ -64,13 +64,11 @@ class _ExercisesSettingsViewState extends State<ExercisesSettingsView> {
         title: Text("Ustawienia ćwiczeń"),
         actions: [
           IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () =>
-                  {}) /*Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AddMuscleGroupView()))
-              .then((value) => _refreshExercisesList()), )*/
+            icon: Icon(Icons.add),
+            onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddExerciseView()))
+                .then((value) => _refreshExercisesList()),
+          )
         ],
       ),
       body: ListView(
@@ -84,7 +82,10 @@ class _ExercisesSettingsViewState extends State<ExercisesSettingsView> {
                         label: Text(exercise.muscleGroupName),
                         backgroundColor: Colors.purple[100],
                       ),
-                      IconButton(icon: Icon(Icons.delete), onPressed: () => _showDeleteExerciseDialog(context, exercise.id))
+                      IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () =>
+                              _showDeleteExerciseDialog(context, exercise.id))
                     ],
                   ),
                 ))

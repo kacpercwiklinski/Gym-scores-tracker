@@ -11,11 +11,11 @@ class _AddUserFormState extends State<AddUserView> {
   final _formKey = GlobalKey<FormState>();
   final userRepository = UserRepository();
 
-  final _formController = TextEditingController();
+  final _nameController = TextEditingController();
 
   @override
   void dispose() {
-    _formController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -27,54 +27,39 @@ class _AddUserFormState extends State<AddUserView> {
       ),
       body: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: TextFormField(
-                controller: _formController,
-                decoration: InputDecoration(
-                    border: UnderlineInputBorder(), labelText: "Imie"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Wprowadz imie nowego strongmana!";
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Powrót",
-                      style: TextStyle(fontSize: 16.0),
-                    )),
-                ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        UserModel user = UserModel.name(_formController.text);
-                        print(user.name);
-                        await userRepository.insert(user); // TODO: Add error handling
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Dodano nowego strongmana!")));
-                      }
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Zatwierdź",
-                      style: TextStyle(fontSize: 16.0),
-                    ))
-              ],
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 8.0),
+          child: TextFormField(
+            controller: _nameController,
+            decoration: InputDecoration(
+                border: UnderlineInputBorder(), labelText: "Imie"),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Wprowadz imie nowego strongmana!";
+              }
+              return null;
+            },
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.purple[700],
+        onPressed: () async {
+          if (_formKey.currentState.validate()) {
+            try {
+              UserModel user = UserModel.name(_nameController.text);
+              await userRepository.insert(user); // TODO: Add error handling
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Dodano nowego strongmana!")));
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Błąd przy dodawaniu nowego strongmana!")));
+            }
+            Navigator.pop(context);
+          }
+        },
+        //icon: Icon(Icons.save),
+        label: Text("Zatwierdź"),
       ),
     );
   }

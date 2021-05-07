@@ -96,7 +96,6 @@ class UserGridItem extends StatelessWidget {
             onPressed: () => showPersonsPage(context),
             icon: Icon(Icons.person),
             label: Text("Podgląd")),
-
       ],
     ));
   }

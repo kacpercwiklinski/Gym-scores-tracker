@@ -8,6 +8,7 @@ class ExerciseModel implements BaseModel {
 
   ExerciseModel();
   ExerciseModel.name(this.name);
+  ExerciseModel.toInsert(this.name, this.muscleGroupId);
   ExerciseModel.allArgs(this.id, this.name, this.muscleGroupId);
   ExerciseModel.joined(this.id, this.name, this.muscleGroupName);
 
@@ -24,5 +25,10 @@ class ExerciseModel implements BaseModel {
 
   Map<String, dynamic> toMap() {
     return {'id': id, 'name': name, 'muscle_group_id': muscleGroupId};
+  }
+
+  @override
+  String toString() {
+    return "id = $id, name = $name, muscle_group_id = $muscleGroupId";
   }
 }

@@ -1,6 +1,5 @@
 import 'package:gym_tracker/src/data/model/MuscleGroupModel.dart';
 
-import '../SQLiteDbProvider.dart';
 import 'BaseRepository.dart';
 
 class MuscleGroupRepository extends BaseRepository<MuscleGroupModel> {

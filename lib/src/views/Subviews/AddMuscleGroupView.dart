@@ -22,61 +22,48 @@ class _AddMuscleGroupViewState extends State<AddMuscleGroupView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Dodaj nową grupę mięśniową"),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: TextFormField(
-                controller: _formController,
-                decoration: InputDecoration(
-                    border: UnderlineInputBorder(), labelText: "Nazwa grupy"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Nazwa grupy nie może być pusta.";
-                  }
-                  return null;
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Powrót",
-                      style: TextStyle(fontSize: 16.0),
-                    )),
-                ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        MuscleGroupModel muscleGroup =
-                            MuscleGroupModel.name(_formController.text);
-                        await _muscleGroupsRepository
-                            .insert(muscleGroup); // TODO: Add error handling
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Dodano nową grupe mięśniową!")));
-                      }
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Zatwierdź",
-                      style: TextStyle(fontSize: 16.0),
-                    ))
-              ],
-            )
-          ],
+        appBar: AppBar(
+          title: Text("Dodaj nową grupę mięśniową"),
         ),
-      ),
-    );
+        body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 8.0),
+            child: TextFormField(
+              controller: _formController,
+              decoration: InputDecoration(
+                  border: UnderlineInputBorder(), labelText: "Nazwa grupy"),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Nazwa grupy nie może być pusta.";
+                }
+                return null;
+              },
+            ),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Colors.purple[700],
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {
+              MuscleGroupModel muscleGroup =
+                  MuscleGroupModel.name(_formController.text);
+
+              try {
+                await _muscleGroupsRepository.insert(muscleGroup);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Dodano nową grupe mięśniową!")));
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content:
+                        Text("Błąd przy dodawaniu nowej grupy mięśniowej!")));
+              }
+
+              Navigator.pop(context);
+            }
+          },
+          //icon: Icon(Icons.save),
+          label: Text("Zatwierdź"),
+        ));
   }
 }

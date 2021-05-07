@@ -17,13 +17,14 @@ class _MuscleGroupSettingsViewState extends State<MuscleGroupSettingsView> {
     _refreshMuscleGroupList();
   }
 
-  void _refreshMuscleGroupList(){
-    _muscleGroupRepository.getAll().then((value)  {
+  void _refreshMuscleGroupList() {
+    _muscleGroupRepository.getAll().then((value) {
       setState(() => _muscleGroups = value);
     });
   }
 
-  Future<void> showDeleteMuscleGroupDialog(BuildContext context, int muscleGroupId) async {
+  Future<void> showDeleteMuscleGroupDialog(
+      BuildContext context, int muscleGroupId) async {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -32,10 +33,10 @@ class _MuscleGroupSettingsViewState extends State<MuscleGroupSettingsView> {
             title: Text("Czy na pewno chcesz usunąć tę grupę mięsniową?"),
             content: SingleChildScrollView(
                 child: ListBody(
-                  children: [
-                    Text('Potwierdz usunięcie.'),
-                  ],
-                )),
+              children: [
+                Text('Zostaną usunięte wszystke ćwiczenia z tej kategorii.'),
+              ],
+            )),
             actions: [
               TextButton(
                   onPressed: () {
@@ -46,8 +47,8 @@ class _MuscleGroupSettingsViewState extends State<MuscleGroupSettingsView> {
                   onPressed: () {
                     _muscleGroupRepository.deleteById(muscleGroupId);
                     _refreshMuscleGroupList();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("Usunięto grupe mięśniową!")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Usunięto grupe mięśniową!")));
                     Navigator.of(context).pop();
                   },
                   child: Text("Usuń"))
@@ -62,21 +63,28 @@ class _MuscleGroupSettingsViewState extends State<MuscleGroupSettingsView> {
       appBar: AppBar(
         title: Text("Ustawienia grup mięsniowych"),
         actions: [
-          IconButton(icon: Icon(Icons.add), onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AddMuscleGroupView()))
-              .then((value) => _refreshMuscleGroupList()), )
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddMuscleGroupView()))
+                .then((value) => _refreshMuscleGroupList()),
+          )
         ],
       ),
       body: ListView(
-        children: _muscleGroups.map((muscleGroup) => ListTile(
-            title: Text(muscleGroup.name),
-          trailing: Icon(Icons.delete),
-          onTap: () {
-              showDeleteMuscleGroupDialog(context, muscleGroup.id);
-          },
-        )).toList(),
+        children: _muscleGroups
+            .map((muscleGroup) => ListTile(
+                  title: Text(muscleGroup.name),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      showDeleteMuscleGroupDialog(context, muscleGroup.id);
+                    },
+                  ),
+                ))
+            .toList(),
       ),
     );
   }
