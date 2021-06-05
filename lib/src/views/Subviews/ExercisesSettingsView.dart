@@ -79,7 +79,7 @@ class _ExercisesSettingsViewState extends State<ExercisesSettingsView> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Chip(
-                        label: Text(exercise.muscleGroupName),
+                        label: Text(exercise.muscleGroup.name),
                         backgroundColor: Colors.purple[100],
                       ),
                       IconButton(

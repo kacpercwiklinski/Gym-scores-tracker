@@ -4,6 +4,7 @@ import 'package:gym_tracker/src/data/model/UserModel.dart';
 import 'package:gym_tracker/src/data/repository/UserRepository.dart';
 import 'package:gym_tracker/src/views/AddUserView.dart';
 import 'package:gym_tracker/src/views/SettingsView.dart';
+import 'package:gym_tracker/src/widget/UserGridItem.dart';
 
 class GymTracker extends StatefulWidget {
   @override
@@ -68,8 +69,7 @@ class _GymTrackerState extends State<GymTracker> {
                       children: _users != null
                           ? _users.map((user) {
                               return UserGridItem(
-                                  user: user,
-                                  refreshUserListCallback: _refreshUserList);
+                                  GlobalKey(), user, _refreshUserList);
                             }).toList()
                           : [Text("Brak użytkowników!")])))
         ],

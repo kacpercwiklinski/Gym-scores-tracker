@@ -98,13 +98,14 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           backgroundColor: Colors.purple[700],
           onPressed: () async {
             if (_formKey.currentState.validate()) {
-              ExerciseModel _exerciseModelToInsert = ExerciseModel.toInsert(
-                  _nameController.text, _selectedMuscleGroup.id);
+              ExerciseModel _exerciseModelToInsert = ExerciseModel.allArgs(
+                  0, _nameController.text, _selectedMuscleGroup);
               try {
                 await _exerciseRepository.insert(_exerciseModelToInsert);
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Dodano nowe ćwiczenie!")));
               } catch (e) {
+                print(e);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Błąd przy dodawaniu nowego ćwiczenia!")));
               }

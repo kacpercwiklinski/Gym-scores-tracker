@@ -9,13 +9,13 @@ class ExercisesRepository extends BaseRepository<ExerciseModel> {
   Future<List<ExerciseModel>> getAllWithMuscleGroupName() async {
     var database = await SQLiteDbProvider.get.database;
     final sqlQuery =
-        "SELECT exercises.id as id, exercises.name as name, muscle_groups.name as muscle_group_name FROM $table INNER JOIN muscle_groups on muscle_groups.id = exercises.muscle_group_id";
+        "SELECT exercises.id as id, exercises.name as name, muscle_groups.id as muscle_group_id,muscle_groups.name as muscle_group_name FROM $table INNER JOIN muscle_groups on muscle_groups.id = exercises.muscle_group_id";
 
     final results = await database.rawQuery(sqlQuery);
     List<ExerciseModel> items = [];
 
     results.forEach((result) {
-      ExerciseModel itemFromMap = model.fromMapJoined(result);
+      ExerciseModel itemFromMap = model.fromMap(result);
       items.add(itemFromMap);
     });
 
