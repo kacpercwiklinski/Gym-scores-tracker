@@ -12,9 +12,9 @@ class ExerciseModel implements BaseModel {
 
   @override
   fromMap(Map<String, dynamic> data) {
-    MuscleGroupModel muscleGroupModel = MuscleGroupModel.allArgs(data['muscle_group_id'], data['muscle_group_name']);
-    return ExerciseModel.allArgs(
-        data['id'], data['name'], muscleGroupModel);
+    MuscleGroupModel muscleGroupModel = MuscleGroupModel.allArgs(
+        data['muscle_group_id'], data['muscle_group_name']);
+    return ExerciseModel.allArgs(data['id'], data['name'], muscleGroupModel);
   }
 
   Map<String, dynamic> toMap() {

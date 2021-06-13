@@ -13,15 +13,17 @@ class ScoreModel implements BaseModel {
   DateTime date;
 
   ScoreModel();
-  ScoreModel.allArgs(this.id, this.user, this.exercise, this.score,
-      this.repeats, this.date);
+  ScoreModel.allArgs(
+      this.id, this.user, this.exercise, this.score, this.repeats, this.date);
 
   @override
   fromMap(Map<String, dynamic> data) {
-    UserModel _userModel = UserModel.allArgs(data['user_id'], data['user_name']);
-    MuscleGroupModel _muscleGroupModel = MuscleGroupModel.allArgs(data['muscle_group_id'], data['muscle_group_name']);
-    ExerciseModel _exerciseModel = ExerciseModel.allArgs(data['exercise_id'], data['exercise_name'], _muscleGroupModel);
-
+    UserModel _userModel =
+        UserModel.allArgs(data['user_id'], data['user_name']);
+    MuscleGroupModel _muscleGroupModel = MuscleGroupModel.allArgs(
+        data['muscle_group_id'], data['muscle_group_name']);
+    ExerciseModel _exerciseModel = ExerciseModel.allArgs(
+        data['exercise_id'], data['exercise_name'], _muscleGroupModel);
 
     return ScoreModel.allArgs(data['id'], _userModel, _exerciseModel,
         data['score'], data['repeats'], DateTime.parse(data['date']));

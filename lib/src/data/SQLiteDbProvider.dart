@@ -99,6 +99,9 @@ class SQLiteDbProvider {
       await db.execute(
           "INSERT INTO scores ('id', 'user_id', 'exercise_id' , 'score', 'repeats', 'date') values (?,?,?,?,?,?)",
           [4, 1, 0, 15.5, 2, "2021-05-09 00:00:00.000"]);
+      await db.execute(
+          "INSERT INTO scores ('id', 'user_id', 'exercise_id' , 'score', 'repeats', 'date') values (?,?,?,?,?,?)",
+          [5, 0, 0, 15.5, 20, "2021-05-09 00:00:00.000"]);
     });
   }
 }
