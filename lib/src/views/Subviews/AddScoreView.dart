@@ -58,25 +58,39 @@ class _AddScoreViewState extends State<AddScoreView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                  padding: EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 8.0),
-                  child: DropdownButton(
-                    isExpanded: true,
-                    hint: Text(
-                        'Wybierz ćwiczenie'), // TODO: Add selected exercise validation
-                    value: _selectedExercise,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _selectedExercise = newValue;
-                      });
-                    },
-                    items: _exercises.map((exercise) {
-                      return DropdownMenuItem(
-                        child: new Text(exercise.name),
-                        value: exercise,
-                      );
-                    }).toList(),
-                  )),
+              FormField(builder: (FormFieldState<ExerciseModel> state) {
+                return Column(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 8.0),
+                        child: DropdownButton(
+                          isExpanded: true,
+                          hint: Text('Wybierz ćwiczenie'),
+                          value: _selectedExercise,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedExercise = newValue;
+                            });
+                          },
+                          items: _exercises.map((exercise) {
+                            return DropdownMenuItem(
+                              child: new Text(exercise.name),
+                              value: exercise,
+                            );
+                          }).toList(),
+                        )),
+                    state.hasError
+                        ? Text(state.errorText,
+                            style: TextStyle(color: Colors.red))
+                        : Text("")
+                  ],
+                );
+              }, validator: (value) {
+                if (_selectedExercise == null) {
+                  return "Wybierz ćwiczenie!";
+                }
+                return null;
+              }),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
                 child: TextFormField(
