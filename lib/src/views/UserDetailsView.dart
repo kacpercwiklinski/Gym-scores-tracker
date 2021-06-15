@@ -3,6 +3,7 @@ import 'package:gym_tracker/src/data/model/ScoreModel.dart';
 import 'package:gym_tracker/src/data/model/UserModel.dart';
 import 'package:gym_tracker/src/data/repository/ScoreRepository.dart';
 import 'package:gym_tracker/src/views/Subviews/AddScoreView.dart';
+import 'package:gym_tracker/src/views/Subviews/DayDetailsView.dart';
 import 'package:gym_tracker/src/widget/ScoreListTile.dart';
 import 'package:intl/intl.dart';
 import 'package:week_of_year/week_of_year.dart';
@@ -25,7 +26,7 @@ extension DateOnlyCompare on DateTime {
 class _UserDetailsViewState extends State<UserDetailsView> {
   UserModel _user;
   ScoreRepository _scoreRepository = ScoreRepository();
-  List<ScoreModel> _scores = [];
+  List<ScoreModel> _monthScores = [];
   DateTime monday =
       DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
@@ -36,7 +37,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
   _getScores() {
     _scoreRepository
         .getAllWithUserAndExerciseForMonth(userId: _user.id, day: monday)
-        .then((value) => setState(() => _scores = value));
+        .then((value) => setState(() => _monthScores = value));
   }
 
   _handleWeekChange(int value) {
@@ -103,12 +104,37 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                     Expanded(
                         flex: 1,
                         child: Center(
-                            child: Text(
-                                '${DateFormat('E').format(monday.add(Duration(days: index)))}'))),
+                            child: TextButton(
+                          child: Text(
+                              '${DateFormat('E').format(monday.add(Duration(days: index)))}'),
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(25.0))),
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.purple)),
+                          onPressed: () {
+                            DateTime day = monday.add(Duration(days: index));
+                            Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DayDetailsView(
+                                            day,
+                                            _monthScores
+                                                .where((score) =>
+                                                    score.date.isSameDate(day))
+                                                .toList())))
+                                .then((value) => _getScores());
+                          },
+                        ))),
                     Expanded(
                         flex: 6,
                         child: Row(
-                          children: _scores
+                          children: _monthScores
                               .where((element) => element.date.isSameDate(
                                   monday.add(Duration(days: index))))
                               .map((score) => score.exercise.muscleGroup.name)
