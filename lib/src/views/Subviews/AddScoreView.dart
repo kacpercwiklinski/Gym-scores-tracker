@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/src/data/model/ExerciseModel.dart';
 import 'package:gym_tracker/src/data/model/ScoreModel.dart';

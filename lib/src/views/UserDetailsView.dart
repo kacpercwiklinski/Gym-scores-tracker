@@ -4,7 +4,6 @@ import 'package:gym_tracker/src/data/model/UserModel.dart';
 import 'package:gym_tracker/src/data/repository/ScoreRepository.dart';
 import 'package:gym_tracker/src/views/Subviews/AddScoreView.dart';
 import 'package:gym_tracker/src/views/Subviews/DayDetailsView.dart';
-import 'package:gym_tracker/src/widget/ScoreListTile.dart';
 import 'package:intl/intl.dart';
 import 'package:week_of_year/week_of_year.dart';
 
@@ -82,19 +81,19 @@ class _UserDetailsViewState extends State<UserDetailsView> {
             itemCount: DateTime.daysPerWeek,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                height: 60,
+                height: 48,
                 //color: Theme.of(context).selectedRowColor,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
                       color: Colors.white,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 4,
-                          blurRadius: 10,
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 3,
+                          blurRadius: 6,
                           offset: Offset(0, 2))
                     ]),
                 child: Row(
@@ -111,8 +110,13 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(25.0))),
+                                      borderRadius: BorderRadius.circular(32.0),
+                                      side: BorderSide(
+                                          color: monday
+                                                  .add(Duration(days: index))
+                                                  .isSameDate(DateTime.now())
+                                              ? Colors.grey
+                                              : Colors.white))),
                               overlayColor:
                                   MaterialStateProperty.all(Colors.white),
                               foregroundColor: MaterialStateProperty.all<Color>(
@@ -132,7 +136,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                           },
                         ))),
                     Expanded(
-                        flex: 6,
+                        flex: 5,
                         child: Row(
                           children: _monthScores
                               .where((element) => element.date.isSameDate(
