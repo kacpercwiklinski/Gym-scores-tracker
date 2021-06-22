@@ -11,10 +11,6 @@ class UserGridItem extends StatelessWidget {
   UserGridItem(Key key, this._user, this._refreshUserListCallback)
       : super(key: key);
 
-  void showPersonsPage(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => UserDetailsView(user: _user)));
-  }
 
   Future<void> showDeletePersonDialog(BuildContext context) async {
     return showDialog(
@@ -53,12 +49,14 @@ class UserGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text(_user.name),
+            Expanded(
+              child: Text(_user.name),
+            ),
             IconButton(
                 onPressed: () async {
                   await showDeletePersonDialog(context);
@@ -71,7 +69,8 @@ class UserGridItem extends StatelessWidget {
         ),
         Divider(),
         TextButton.icon(
-            onPressed: () => showPersonsPage(context),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UserDetailsView(user: _user))),
             icon: Icon(Icons.person),
             label: Text("Podgląd")),
       ],

@@ -95,7 +95,6 @@ class _AddExerciseViewState extends State<AddExerciseView> {
           ),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: Colors.purple[700],
           onPressed: () async {
             if (_formKey.currentState.validate()) {
               ExerciseModel _exerciseModelToInsert = ExerciseModel.allArgs(

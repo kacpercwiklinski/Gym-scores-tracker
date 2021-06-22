@@ -43,7 +43,6 @@ class _AddUserFormState extends State<AddUserView> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.purple[700],
         onPressed: () async {
           if (_formKey.currentState.validate()) {
             try {

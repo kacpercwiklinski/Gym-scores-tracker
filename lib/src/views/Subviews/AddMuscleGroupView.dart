@@ -43,7 +43,6 @@ class _AddMuscleGroupViewState extends State<AddMuscleGroupView> {
           ),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: Colors.purple[700],
           onPressed: () async {
             if (_formKey.currentState.validate()) {
               MuscleGroupModel muscleGroup =

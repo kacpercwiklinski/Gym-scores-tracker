@@ -122,7 +122,6 @@ class _AddScoreViewState extends State<AddScoreView> {
           ),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: Colors.purple[700],
           onPressed: () async {
             if (_formKey.currentState.validate()) {
               ScoreModel score = ScoreModel.allArgs(
