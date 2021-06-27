@@ -35,7 +35,9 @@ class SQLiteDbProvider {
       await db.execute(
           "CREATE TABLE exercises (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, muscle_group_id INTEGER, FOREIGN KEY(muscle_group_id) REFERENCES muscle_groups(id))");
       await db.execute(
-          "CREATE TABLE scores (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, exercise_id INTEGER, score REAL, repeats INTEGER, date TEXT, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(exercise_id) REFERENCES exercises(id))");
+          "CREATE TABLE scores (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, exercise_id INTEGER, date TEXT, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(exercise_id) REFERENCES exercises(id))");
+      await db.execute(
+          "CREATE TABLE sets (id INTEGER PRIMARY KEY AUTOINCREMENT, score_id INTEGER, weight REAL, repeats INTEGER, FOREIGN KEY(score_id) REFERENCES scores(id))");
 
       // Insert default users
       await db.execute(
@@ -85,23 +87,20 @@ class SQLiteDbProvider {
 
       // Insert default scores
       await db.execute(
-          "INSERT INTO scores ('id', 'user_id', 'exercise_id' , 'score', 'repeats', 'date') values (?,?,?,?,?,?)",
-          [0, 0, 0, 92.5, 3, "2021-05-09 00:00:00.000"]);
+          "INSERT INTO scores ('id', 'user_id', 'exercise_id', 'date') values (?,?,?,?)",
+          [0, 0, 0, "2021-06-25 00:00:00.000"]);
       await db.execute(
-          "INSERT INTO scores ('id', 'user_id', 'exercise_id' , 'score', 'repeats', 'date') values (?,?,?,?,?,?)",
-          [1, 0, 2, 62.5, 5, "2021-05-09 00:00:00.000"]);
+          "INSERT INTO sets ('id', 'score_id', 'weight' , 'repeats') values (?,?,?,?)",
+          [0, 0, 75, 8]);
       await db.execute(
-          "INSERT INTO scores ('id', 'user_id', 'exercise_id' , 'score', 'repeats', 'date') values (?,?,?,?,?,?)",
-          [2, 0, 3, 17.5, 8, "2021-05-09 00:00:00.000"]);
+          "INSERT INTO sets ('id', 'score_id', 'weight' , 'repeats') values (?,?,?,?)",
+          [1, 0, 77.5, 8]);
       await db.execute(
-          "INSERT INTO scores ('id', 'user_id', 'exercise_id' , 'score', 'repeats', 'date') values (?,?,?,?,?,?)",
-          [3, 0, 1, 110, 8, "2021-05-09 00:00:00.000"]);
+          "INSERT INTO sets ('id', 'score_id', 'weight' , 'repeats') values (?,?,?,?)",
+          [2, 0, 80, 8]);
       await db.execute(
-          "INSERT INTO scores ('id', 'user_id', 'exercise_id' , 'score', 'repeats', 'date') values (?,?,?,?,?,?)",
-          [4, 1, 0, 15.5, 2, "2021-05-09 00:00:00.000"]);
-      await db.execute(
-          "INSERT INTO scores ('id', 'user_id', 'exercise_id' , 'score', 'repeats', 'date') values (?,?,?,?,?,?)",
-          [5, 0, 0, 15.5, 20, "2021-05-09 00:00:00.000"]);
+          "INSERT INTO sets ('id', 'score_id', 'weight' , 'repeats') values (?,?,?,?)",
+          [3, 0, 107, 1]);
     });
   }
 }

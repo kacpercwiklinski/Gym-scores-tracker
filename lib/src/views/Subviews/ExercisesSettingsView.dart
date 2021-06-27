@@ -18,7 +18,7 @@ class _ExercisesSettingsViewState extends State<ExercisesSettingsView> {
   }
 
   void _refreshExercisesList() {
-    _exercisesRepository.getAllWithMuscleGroupName().then((value) {
+    _exercisesRepository.getAll().then((value) {
       setState(() => _exercises = value);
     });
   }

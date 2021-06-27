@@ -11,7 +11,6 @@ class UserGridItem extends StatelessWidget {
   UserGridItem(Key key, this._user, this._refreshUserListCallback)
       : super(key: key);
 
-
   Future<void> showDeletePersonDialog(BuildContext context) async {
     return showDialog(
         context: context,
@@ -69,8 +68,10 @@ class UserGridItem extends StatelessWidget {
         ),
         Divider(),
         TextButton.icon(
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => UserDetailsView(user: _user))),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UserDetailsView(user: _user))),
             icon: Icon(Icons.person),
             label: Text("Podgląd")),
       ],

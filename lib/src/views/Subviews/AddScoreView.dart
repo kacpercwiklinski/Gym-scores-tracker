@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/src/data/model/ExerciseModel.dart';
 import 'package:gym_tracker/src/data/model/ScoreModel.dart';
+import 'package:gym_tracker/src/data/model/SetModel.dart';
 import 'package:gym_tracker/src/data/model/UserModel.dart';
 import 'package:gym_tracker/src/data/repository/ExercisesRepository.dart';
 import 'package:gym_tracker/src/data/repository/ScoreRepository.dart';
+import 'package:gym_tracker/src/data/repository/SetRepository.dart';
 import 'package:intl/intl.dart';
+import 'package:sqflite/sqflite.dart';
 
 class AddScoreView extends StatefulWidget {
   final _user;
@@ -22,6 +25,8 @@ class _AddScoreViewState extends State<AddScoreView> {
   final DateTime _day;
   final ScoreRepository _scoreRepository = ScoreRepository();
   final ExercisesRepository _exercisesRepository = ExercisesRepository();
+  final SetRepository _setRepository = SetRepository();
+
   List<ExerciseModel> _exercises = [];
   ExerciseModel _selectedExercise;
 
@@ -89,6 +94,10 @@ class _AddScoreViewState extends State<AddScoreView> {
                 }
                 return null;
               }),
+              Text(
+                "Pierwsza seria",
+                style: TextStyle(fontSize: 16.0),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
                 child: TextFormField(
@@ -124,16 +133,23 @@ class _AddScoreViewState extends State<AddScoreView> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             if (_formKey.currentState.validate()) {
-              ScoreModel score = ScoreModel.allArgs(
-                  0,
-                  _user,
-                  _selectedExercise,
-                  double.parse(_weightValueController.text),
-                  int.parse(_repeatsValueController.text),
-                  _day);
+              ScoreModel score =
+                  ScoreModel.allArgs(0, _user, _selectedExercise, _day);
 
               try {
-                await _scoreRepository.insert(score);
+                var scoreId = await _scoreRepository.insert(score);
+
+                if (scoreId != null) {
+                  SetModel firstSet = SetModel.allArgs(
+                      0,
+                      scoreId,
+                      double.parse(_weightValueController.text),
+                      int.parse(_repeatsValueController.text));
+                  await _setRepository.insert(firstSet);
+                } else {
+                  throw Exception("Error when inserting new score!");
+                }
+
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Dodano nowy wynik!")));
               } catch (e) {

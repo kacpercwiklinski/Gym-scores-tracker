@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/src/data/model/ScoreModel.dart';
+import 'package:gym_tracker/src/data/repository/SetRepository.dart';
 
 class DayExerciseCard extends StatefulWidget {
   final ScoreModel _scoreModel;
@@ -14,10 +15,15 @@ class DayExerciseCard extends StatefulWidget {
 }
 
 class _DayExerciseCardState extends State<DayExerciseCard> {
+  SetRepository _setRepository = SetRepository();
   ScoreModel _scoreModel;
   bool _isExpanded;
 
-  _DayExerciseCardState(this._scoreModel, this._isExpanded);
+  _DayExerciseCardState(this._scoreModel, this._isExpanded) {
+    _setRepository
+        .getAllByScoreId(_scoreModel.id)
+        .then((value) => setState(() => {_scoreModel.setSets(value)}));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +39,12 @@ class _DayExerciseCardState extends State<DayExerciseCard> {
         child: Column(
           children: <Widget>[
             ListTile(
+              leading: IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => {
+                  // TODO: Go to Add Set View
+                },
+              ),
               title: (Text(
                 _scoreModel.exercise.name,
               )),
@@ -57,11 +69,10 @@ class _DayExerciseCardState extends State<DayExerciseCard> {
               height: _isExpanded ? 32 : 0,
               width: MediaQuery.of(context).size.width,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("${_scoreModel.score} kg"),
-                  Text("x ${_scoreModel.repeats}"),
-                ],
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: _scoreModel.sets.map((set) {
+                  return Text("${set.weight} x ${set.repeats}");
+                }).toList(),
               ),
             )
           ],

@@ -35,7 +35,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
 
   _getScores() {
     _scoreRepository
-        .getAllWithUserAndExerciseForMonth(userId: _user.id, day: monday)
+        .getAllWithUserAndExerciseForMonth(user: _user, day: monday)
         .then((value) => setState(() => _monthScores = value));
   }
 
@@ -127,6 +127,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => DayDetailsView(
+                                            _user,
                                             day,
                                             _monthScores
                                                 .where((score) =>
@@ -146,22 +147,7 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                               .map((muscleGroupName) => Text(muscleGroupName))
                               .toList(),
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        )),
-                    Expanded(
-                        child: IconButton(
-                            icon: Icon(
-                              Icons.addchart_outlined,
-                            ),
-                            onPressed: () => {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AddScoreView(
-                                              _user,
-                                              monday.add(Duration(
-                                                  days: index))))).then(
-                                      (value) => _getScores()),
-                                }))
+                        ))
                   ],
                 ),
               );

@@ -1,28 +1,31 @@
 import 'package:gym_tracker/src/data/model/BaseModel.dart';
-import 'package:gym_tracker/src/data/model/MuscleGroupModel.dart';
 
-class ExerciseModel implements BaseModel {
+class SetModel implements BaseModel {
   int id;
-  String name;
-  MuscleGroupModel muscleGroup;
+  int scoreId;
+  num weight;
+  int repeats;
 
-  ExerciseModel();
-  ExerciseModel.name(this.name);
-  ExerciseModel.allArgs(this.id, this.name, this.muscleGroup);
+  SetModel();
+  SetModel.allArgs(this.id, this.scoreId, this.weight, this.repeats);
 
   @override
   fromMap(Map<String, dynamic> data) {
-    MuscleGroupModel muscleGroupModel = MuscleGroupModel.allArgs(
-        data['muscle_group_id'], data['muscle_group_name']);
-    return ExerciseModel.allArgs(data['id'], data['name'], muscleGroupModel);
+    return SetModel.allArgs(
+        data['id'], data['score_id'], data['weight'], data['repeats']);
   }
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name, 'muscle_group_id': muscleGroup.id};
+    return {
+      'id': id,
+      'score_id': scoreId,
+      'weight': weight,
+      'repeats': repeats
+    };
   }
 
   @override
   String toString() {
-    return "id = $id, name = $name, muscle_group_id = ${muscleGroup.id}";
+    return "id = $id, score_id = $scoreId, weight = $weight, repeats = $repeats";
   }
 }
