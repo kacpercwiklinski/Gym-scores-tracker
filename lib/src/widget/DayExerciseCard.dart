@@ -24,7 +24,7 @@ class _DayExerciseCardState extends State<DayExerciseCard> {
     _getSets();
   }
 
-  _getSets(){
+  _getSets() {
     _setRepository
         .getAllByScoreId(_scoreModel.id)
         .then((value) => setState(() => {_scoreModel.setSets(value)}));
@@ -47,9 +47,9 @@ class _DayExerciseCardState extends State<DayExerciseCard> {
               leading: IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddSetView(_scoreModel)))
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddSetView(_scoreModel)))
                     .then((value) => _getSets()),
               ),
               title: (Text(

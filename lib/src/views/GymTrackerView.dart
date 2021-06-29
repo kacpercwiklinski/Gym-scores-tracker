@@ -33,7 +33,7 @@ class _GymTrackerState extends State<GymTracker> {
             childAspectRatio: 1.0,
             children: _users != null
                 ? _users.map((user) {
-                    return UserGridItem(GlobalKey(), user, _refreshUserList);
+                    return UserGridItem(user, _refreshUserList);
                   }).toList()
                 : [Text("Brak użytkowników!")]),
       );

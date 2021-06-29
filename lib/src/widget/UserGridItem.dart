@@ -8,7 +8,7 @@ class UserGridItem extends StatelessWidget {
   final _userRepository = UserRepository();
   final Function() _refreshUserListCallback;
 
-  UserGridItem(Key key, this._user, this._refreshUserListCallback)
+  UserGridItem(this._user, this._refreshUserListCallback, {Key key})
       : super(key: key);
 
   Future<void> showDeletePersonDialog(BuildContext context) async {
