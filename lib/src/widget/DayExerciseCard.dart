@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/src/data/model/ScoreModel.dart';
 import 'package:gym_tracker/src/data/repository/SetRepository.dart';
+import 'package:gym_tracker/src/views/Subviews/AddSetView.dart';
 
 class DayExerciseCard extends StatefulWidget {
   final ScoreModel _scoreModel;
@@ -20,6 +21,10 @@ class _DayExerciseCardState extends State<DayExerciseCard> {
   bool _isExpanded;
 
   _DayExerciseCardState(this._scoreModel, this._isExpanded) {
+    _getSets();
+  }
+
+  _getSets(){
     _setRepository
         .getAllByScoreId(_scoreModel.id)
         .then((value) => setState(() => {_scoreModel.setSets(value)}));
@@ -41,9 +46,11 @@ class _DayExerciseCardState extends State<DayExerciseCard> {
             ListTile(
               leading: IconButton(
                 icon: Icon(Icons.add),
-                onPressed: () => {
-                  // TODO: Go to Add Set View
-                },
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddSetView(_scoreModel)))
+                    .then((value) => _getSets()),
               ),
               title: (Text(
                 _scoreModel.exercise.name,

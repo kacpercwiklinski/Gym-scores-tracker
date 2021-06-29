@@ -101,24 +101,10 @@ class _AddScoreViewState extends State<AddScoreView> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
                 child: TextFormField(
-                  controller: _repeatsValueController,
-                  decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: "Ilość powtórzeń"),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Pole powtórzen nie może być puste";
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
-                child: TextFormField(
                   controller: _weightValueController,
                   decoration: InputDecoration(
                       border: UnderlineInputBorder(), labelText: "Ciężar"),
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Pole ciężaru nie może być puste";
@@ -127,6 +113,22 @@ class _AddScoreViewState extends State<AddScoreView> {
                   },
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+                child: TextFormField(
+                  controller: _repeatsValueController,
+                  decoration: InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: "Ilość powtórzeń"),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Pole powtórzen nie może być puste";
+                    }
+                    return null;
+                  },
+                ),
+              )
             ],
           ),
         ),
@@ -159,7 +161,6 @@ class _AddScoreViewState extends State<AddScoreView> {
               Navigator.pop(context);
             }
           },
-          //icon: Icon(Icons.save),
           label: Text("Zatwierdź"),
         ));
   }
