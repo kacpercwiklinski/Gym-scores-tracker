@@ -16,12 +16,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Personal Gym Tracker',
       theme: ThemeData(
-        primaryColorDark: Colors.purple[900],
-        primaryColor: Colors.purple[800],
-        primaryColorLight: Colors.purple[600],
-        floatingActionButtonTheme:
-            FloatingActionButtonThemeData(backgroundColor: Colors.purple[700]),
-      ),
+          primaryColorDark: Colors.purple[900],
+          primaryColor: Colors.purple[800],
+          primaryColorLight: Colors.purple[600],
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: Colors.purple[700]),
+          accentColor: Colors.purple[600]),
       home: GymTracker(),
     );
   }

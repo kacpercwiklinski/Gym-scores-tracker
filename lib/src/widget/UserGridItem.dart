@@ -48,44 +48,46 @@ class UserGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child: Text(_user.name),
-            ),
-            IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            DayDetailsView(_user, DateTime.now()))),
-                icon: Icon(
-                  Icons.today,
-                  color: Colors.greenAccent,
-                )),
-            IconButton(
-                onPressed: () async {
-                  await showDeletePersonDialog(context);
-                },
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ))
-          ],
-        ),
-        Divider(),
-        TextButton.icon(
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => UserDetailsView(user: _user))),
-            icon: Icon(Icons.person),
-            label: Text("Podgląd")),
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(_user.name),
+              ),
+              IconButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DayDetailsView(_user, DateTime.now()))),
+                  icon: Icon(
+                    Icons.today,
+                    color: Theme.of(context).primaryColor,
+                  )),
+              IconButton(
+                  onPressed: () async {
+                    await showDeletePersonDialog(context);
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ))
+            ],
+          ),
+          TextButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UserDetailsView(user: _user))),
+              //icon: Icon(Icons.person),
+              child: Text("Podgląd tygodnia")),
+        ],
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+    );
   }
 }

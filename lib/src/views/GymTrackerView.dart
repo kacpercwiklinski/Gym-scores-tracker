@@ -16,7 +16,6 @@ class _GymTrackerState extends State<GymTracker> {
   UserRepository _userRepository = UserRepository();
 
   _GymTrackerState() {
-    SQLiteDbProvider.get.database.then((value) => null);
     _refreshUserList();
   }
 
@@ -27,15 +26,13 @@ class _GymTrackerState extends State<GymTracker> {
   Widget _buildGrid() => Container(
         child: GridView.count(
             crossAxisCount: 2,
-            mainAxisSpacing: 2.0,
-            crossAxisSpacing: 2.0,
+            mainAxisSpacing: 4.0,
+            crossAxisSpacing: 4.0,
             padding: const EdgeInsets.all(2.0),
-            childAspectRatio: 1.0,
-            children: _users != null
-                ? _users.map((user) {
-                    return UserGridItem(user, _refreshUserList);
-                  }).toList()
-                : [Text("Brak użytkowników!")]),
+            childAspectRatio: 1.5,
+            children: _users.map((user) {
+              return UserGridItem(user, _refreshUserList);
+            }).toList()),
       );
 
   @override
@@ -65,7 +62,9 @@ class _GymTrackerState extends State<GymTracker> {
                   }),
         ],
       ),
-      body: _buildGrid(),
+      body: _users != null
+          ? _buildGrid()
+          : Center(child: CircularProgressIndicator()),
     );
   }
 }
