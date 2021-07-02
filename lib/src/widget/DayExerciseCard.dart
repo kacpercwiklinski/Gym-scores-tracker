@@ -34,12 +34,10 @@ class _DayExerciseCardState extends State<DayExerciseCard> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 100),
-      child: Card(
-        elevation: 10,
-        color: Theme.of(context).canvasColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: Theme.of(context).dividerColor))),
         margin: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
         child: Column(
           children: <Widget>[

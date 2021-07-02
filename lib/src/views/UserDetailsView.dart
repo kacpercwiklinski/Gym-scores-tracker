@@ -68,104 +68,94 @@ class _UserDetailsViewState extends State<UserDetailsView> {
       appBar: AppBar(
         title: Text("${_user.name}'s scores"),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                    icon: Icon(Icons.arrow_left),
-                    onPressed: () => _handleWeekChange(-1)),
-                Text(
-                    "Tydzien ${monday.weekOfYear} - ${DateFormat('yMMMMd').format(monday)}"),
-                IconButton(
-                    icon: Icon(Icons.arrow_right),
-                    onPressed: () => _handleWeekChange(1)),
-              ],
+      body: Container(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.arrow_left),
+                      onPressed: () => _handleWeekChange(-1)),
+                  Text(
+                      "Tydzien ${monday.weekOfYear} - ${DateFormat('yMMMMd').format(monday)}"),
+                  IconButton(
+                      icon: Icon(Icons.arrow_right),
+                      onPressed: () => _handleWeekChange(1)),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-              child: ListView.separated(
-            padding: const EdgeInsets.fromLTRB(8.0, 1.0, 8.0, 8.0),
-            itemCount: DateTime.daysPerWeek,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 48,
-                //color: Theme.of(context).selectedRowColor,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 3,
-                          blurRadius: 6,
-                          offset: Offset(0, 2))
-                    ]),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: Center(
-                            child: TextButton(
-                          child: Text(
-                              '${DateFormat('E').format(monday.add(Duration(days: index)))}'),
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(32.0),
-                                      side: BorderSide(
-                                          color: monday
-                                                  .add(Duration(days: index))
-                                                  .isSameDate(DateTime.now())
-                                              ? Colors.grey
-                                              : Colors.white))),
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.white),
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.purple)),
-                          onPressed: () {
-                            DateTime day = monday.add(Duration(days: index));
-                            Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DayDetailsView(
-                                            _user, day,
-                                            dayScores: _monthScores
-                                                .where((score) =>
-                                                    score.date.isSameDate(day))
-                                                .toList())))
-                                .then((value) => _getScores());
-                          },
-                        ))),
-                    Expanded(
-                        flex: 5,
-                        child: Row(
-                          children: _monthScores
-                              .where((element) => element.date.isSameDate(
-                                  monday.add(Duration(days: index))))
-                              .map((score) => score.exercise.muscleGroup.name)
-                              .toSet() // Make elements unique
-                              .map((muscleGroupName) => Text(muscleGroupName))
-                              .toList(),
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        ))
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(height: 8, thickness: 0),
-          )),
-        ],
+            Expanded(
+                child: ListView.separated(
+              padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+              itemCount: DateTime.daysPerWeek,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 48,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Center(
+                              child: TextButton(
+                            child: Text(
+                                '${DateFormat('E').format(monday.add(Duration(days: index)))}'),
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        side: BorderSide(
+                                            color: monday
+                                                    .add(Duration(days: index))
+                                                    .isSameDate(DateTime.now())
+                                                ? Colors.grey
+                                                : Colors.white))),
+                                overlayColor:
+                                    MaterialStateProperty.all(Colors.white),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.purple)),
+                            onPressed: () {
+                              DateTime day = monday.add(Duration(days: index));
+                              Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DayDetailsView(
+                                              _user, day,
+                                              dayScores: _monthScores
+                                                  .where((score) => score.date
+                                                      .isSameDate(day))
+                                                  .toList())))
+                                  .then((value) => _getScores());
+                            },
+                          ))),
+                      Expanded(
+                          flex: 5,
+                          child: Row(
+                            children: _monthScores
+                                .where((element) => element.date.isSameDate(
+                                    monday.add(Duration(days: index))))
+                                .map((score) => score.exercise.muscleGroup.name)
+                                .toSet() // Make elements unique
+                                .map((muscleGroupName) => Text(muscleGroupName))
+                                .toList(),
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          ))
+                    ],
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(height: 8, thickness: 0),
+            )),
+          ],
+        ),
       ),
     );
   }
