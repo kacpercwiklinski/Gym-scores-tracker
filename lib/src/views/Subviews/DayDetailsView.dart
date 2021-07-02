@@ -16,14 +16,14 @@ class ScoreExpansionPanelItem {
 class DayDetailsView extends StatefulWidget {
   final UserModel _userModel;
   final DateTime _day;
-  final List<ScoreModel> _dayScores;
+  final List<ScoreModel> dayScores;
 
-  DayDetailsView(this._userModel, this._day, this._dayScores, {Key key})
+  DayDetailsView(this._userModel, this._day, {Key key, this.dayScores})
       : super(key: key);
 
   @override
   _DayDetailsViewState createState() =>
-      _DayDetailsViewState(_userModel, _day, _dayScores);
+      _DayDetailsViewState(_userModel, _day, dayScores);
 }
 
 class _DayDetailsViewState extends State<DayDetailsView> {
@@ -32,13 +32,17 @@ class _DayDetailsViewState extends State<DayDetailsView> {
   final ScoreRepository _scoreRepository = ScoreRepository();
   List<ScoreModel> dayScores;
 
-  _DayDetailsViewState(this._user, this._day, this.dayScores);
+  _DayDetailsViewState(this._user, this._day, this.dayScores) {
+    if(dayScores.isEmpty){
+      _getDayScores();
+    }
+  }
+
 
   _getDayScores() {
-    setState(() => dayScores
-        .clear()); // TODO: Find a better way to expand only latest exercise
+    // TODO: Find a way to expand only latest exercise
     _scoreRepository
-        .getAllWithUserAndExerciseForDay(user: _user, day: _day)
+        .getAllWhereUserAndDateBetween(user: _user, startDate: _day, endDate: _day)
         .then((value) => setState(() => {dayScores = value}));
   }
 

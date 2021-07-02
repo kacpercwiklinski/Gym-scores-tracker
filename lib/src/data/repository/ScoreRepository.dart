@@ -2,7 +2,6 @@ import 'package:gym_tracker/src/data/SQLiteDbProvider.dart';
 import 'package:gym_tracker/src/data/model/ScoreModel.dart';
 import 'package:gym_tracker/src/data/model/UserModel.dart';
 import 'package:gym_tracker/src/data/repository/BaseRepository.dart';
-import 'package:in_date_utils/in_date_utils.dart';
 import 'package:intl/intl.dart';
 
 class ScoreRepository extends BaseRepository<ScoreModel> {
@@ -42,16 +41,16 @@ class ScoreRepository extends BaseRepository<ScoreModel> {
     return items;
   }
 
-  Future<List<ScoreModel>> getAllWithUserAndExerciseForMonth(
-      {UserModel user, DateTime day}) async {
+  Future<List<ScoreModel>> getAllWhereUserAndDateBetween(
+      {UserModel user, DateTime startDate, DateTime endDate}) async {
     var database = await SQLiteDbProvider.get.database;
     var sqlQuery = _getAllQuery;
+    var results = [];
+    List<ScoreModel> items = [];
 
     sqlQuery += " WHERE users.id = ${user.id}";
     sqlQuery +=
-        " AND scores.date BETWEEN '${day.year}-${DateFormat('MM').format(day)}-01 00:00:00' AND '${day.year}-${DateFormat('MM').format(day)}-${DateUtils.getDaysInMonth(day.year, day.month)} 23:59:59.999'";
-
-    var results = [];
+        " AND scores.date BETWEEN '${DateFormat('y-MM-dd').format(startDate)} 00:00:00' AND '${DateFormat('y-MM-dd').format(endDate)} 23:59:59.999'";
 
     try {
       results = await database.rawQuery(sqlQuery);
@@ -59,36 +58,6 @@ class ScoreRepository extends BaseRepository<ScoreModel> {
       print("Score Repository error");
       print(e);
     }
-
-    List<ScoreModel> items = [];
-
-    results.forEach((result) {
-      ScoreModel itemFromMap = model.fromMap(result);
-      items.add(itemFromMap);
-    });
-
-    return items;
-  }
-
-  Future<List<ScoreModel>> getAllWithUserAndExerciseForDay(
-      {UserModel user, DateTime day}) async {
-    var database = await SQLiteDbProvider.get.database;
-    var sqlQuery = _getAllQuery;
-
-    sqlQuery += " WHERE users.id = ${user.id}";
-    sqlQuery +=
-        " AND scores.date BETWEEN '${day.year}-${DateFormat('MM').format(day)}-${DateFormat('dd').format(day)} 00:00:00' AND '${day.year}-${DateFormat('MM').format(day)}-${DateFormat('dd').format(day)} 23:59:59.999'";
-
-    var results = [];
-
-    try {
-      results = await database.rawQuery(sqlQuery);
-    } catch (e) {
-      print("Score Repository error");
-      print(e);
-    }
-
-    List<ScoreModel> items = [];
 
     results.forEach((result) {
       ScoreModel itemFromMap = model.fromMap(result);

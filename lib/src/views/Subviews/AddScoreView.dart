@@ -7,7 +7,6 @@ import 'package:gym_tracker/src/data/repository/ExercisesRepository.dart';
 import 'package:gym_tracker/src/data/repository/ScoreRepository.dart';
 import 'package:gym_tracker/src/data/repository/SetRepository.dart';
 import 'package:intl/intl.dart';
-import 'package:sqflite/sqflite.dart';
 
 class AddScoreView extends StatefulWidget {
   final _user;

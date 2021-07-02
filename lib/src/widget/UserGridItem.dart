@@ -57,6 +57,12 @@ class UserGridItem extends StatelessWidget {
               child: Text(_user.name),
             ),
             IconButton(
+                onPressed: () => {},
+                icon: Icon(
+                  Icons.today,
+                  color: Colors.greenAccent,
+                )),
+            IconButton(
                 onPressed: () async {
                   await showDeletePersonDialog(context);
                 },

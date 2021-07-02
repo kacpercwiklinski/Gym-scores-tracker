@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gym_tracker/src/data/model/ScoreModel.dart';
 import 'package:gym_tracker/src/data/model/UserModel.dart';
 import 'package:gym_tracker/src/data/repository/ScoreRepository.dart';
-import 'package:gym_tracker/src/views/Subviews/AddScoreView.dart';
 import 'package:gym_tracker/src/views/Subviews/DayDetailsView.dart';
 import 'package:intl/intl.dart';
 import 'package:week_of_year/week_of_year.dart';
@@ -29,13 +28,20 @@ class _UserDetailsViewState extends State<UserDetailsView> {
   DateTime monday =
       DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
+  DateTime startDate;
+  DateTime endDate;
+
   _UserDetailsViewState(this._user) {
+    // First day of current month minus 7 days
+    startDate = DateTime.parse("${monday.year}-${DateFormat('MM').format(monday)}-01").subtract(Duration(days: 7));
+    // Last day of current month plus 7 days
+    endDate = DateTime.parse("${monday.year}-${DateFormat('MM').format(monday)}-${DateUtils.getDaysInMonth(monday.year, monday.month)}").add(Duration(days: 7));
     _getScores();
   }
 
   _getScores() {
     _scoreRepository
-        .getAllWithUserAndExerciseForMonth(user: _user, day: monday)
+        .getAllWhereUserAndDateBetween(user: _user, startDate: startDate, endDate: endDate)
         .then((value) => setState(() => _monthScores = value));
   }
 
@@ -127,9 +133,8 @@ class _UserDetailsViewState extends State<UserDetailsView> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => DayDetailsView(
-                                            _user,
-                                            day,
-                                            _monthScores
+                                            _user, day,
+                                            dayScores: _monthScores
                                                 .where((score) =>
                                                     score.date.isSameDate(day))
                                                 .toList())))
