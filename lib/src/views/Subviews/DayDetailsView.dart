@@ -18,7 +18,8 @@ class DayDetailsView extends StatefulWidget {
   final DateTime _day;
   final List<ScoreModel> dayScores;
 
-  DayDetailsView(this._userModel, this._day, {Key key, this.dayScores})
+  DayDetailsView(this._userModel, this._day,
+      {Key key, this.dayScores = const []})
       : super(key: key);
 
   @override
@@ -33,16 +34,16 @@ class _DayDetailsViewState extends State<DayDetailsView> {
   List<ScoreModel> dayScores;
 
   _DayDetailsViewState(this._user, this._day, this.dayScores) {
-    if(dayScores.isEmpty){
+    if (dayScores.isEmpty) {
       _getDayScores();
     }
   }
 
-
   _getDayScores() {
     // TODO: Find a way to expand only latest exercise
     _scoreRepository
-        .getAllWhereUserAndDateBetween(user: _user, startDate: _day, endDate: _day)
+        .getAllWhereUserAndDateBetween(
+            user: _user, startDate: _day, endDate: _day)
         .then((value) => setState(() => {dayScores = value}));
   }
 

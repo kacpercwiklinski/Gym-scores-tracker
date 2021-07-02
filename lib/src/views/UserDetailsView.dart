@@ -33,15 +33,20 @@ class _UserDetailsViewState extends State<UserDetailsView> {
 
   _UserDetailsViewState(this._user) {
     // First day of current month minus 7 days
-    startDate = DateTime.parse("${monday.year}-${DateFormat('MM').format(monday)}-01").subtract(Duration(days: 7));
+    startDate =
+        DateTime.parse("${monday.year}-${DateFormat('MM').format(monday)}-01")
+            .subtract(Duration(days: 7));
     // Last day of current month plus 7 days
-    endDate = DateTime.parse("${monday.year}-${DateFormat('MM').format(monday)}-${DateUtils.getDaysInMonth(monday.year, monday.month)}").add(Duration(days: 7));
+    endDate = DateTime.parse(
+            "${monday.year}-${DateFormat('MM').format(monday)}-${DateUtils.getDaysInMonth(monday.year, monday.month)}")
+        .add(Duration(days: 7));
     _getScores();
   }
 
   _getScores() {
     _scoreRepository
-        .getAllWhereUserAndDateBetween(user: _user, startDate: startDate, endDate: endDate)
+        .getAllWhereUserAndDateBetween(
+            user: _user, startDate: startDate, endDate: endDate)
         .then((value) => setState(() => _monthScores = value));
   }
 

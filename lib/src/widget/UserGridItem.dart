@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/src/data/model/UserModel.dart';
 import 'package:gym_tracker/src/data/repository/UserRepository.dart';
+import 'package:gym_tracker/src/views/Subviews/DayDetailsView.dart';
 import 'package:gym_tracker/src/views/UserDetailsView.dart';
 
 class UserGridItem extends StatelessWidget {
@@ -57,7 +58,11 @@ class UserGridItem extends StatelessWidget {
               child: Text(_user.name),
             ),
             IconButton(
-                onPressed: () => {},
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            DayDetailsView(_user, DateTime.now()))),
                 icon: Icon(
                   Icons.today,
                   color: Colors.greenAccent,
